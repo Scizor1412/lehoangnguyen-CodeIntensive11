@@ -1,5 +1,6 @@
 package base.Enemy;
 
+import base.FrameCounter;
 import base.GameObject;
 import base.Renderer.AnimationRenderer;
 import base.Renderer.SingleImageRenderer;
@@ -10,11 +11,14 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Enemy extends GameObject {
+    FrameCounter enemyFireCounter;
+
     public Enemy() {
         super();
         BufferedImage image = SpriteUtils.loadImage("D:\\Techkids\\Code Intensive\\ci-begin-master\\ci-begin-master\\assets\\images\\enemies\\level0\\black\\0.png");
         this.createRenderer();
-        this.position.set((float)Math.random()*300 +1, 50);
+        this.position.set((float) Math.random() * 300 + 1, -50);
+        this.enemyFireCounter = new FrameCounter(20);
     }
 
     @Override
@@ -27,30 +31,19 @@ public class Enemy extends GameObject {
     }
 
     private void createRenderer() {
-        ArrayList<BufferedImage> images = new ArrayList<>() ;
-        images.add(SpriteUtils.loadImage("D:\\Techkids\\Code Intensive\\ci-begin-master\\ci-begin-master\\assets\\images\\enemies\\explosion\\0.png"));
-        images.add(SpriteUtils.loadImage("D:\\Techkids\\Code Intensive\\ci-begin-master\\ci-begin-master\\assets\\images\\enemies\\explosion\\1.png"));
-        images.add(SpriteUtils.loadImage("D:\\Techkids\\Code Intensive\\ci-begin-master\\ci-begin-master\\assets\\images\\enemies\\explosion\\2.png"));
-        images.add(SpriteUtils.loadImage("D:\\Techkids\\Code Intensive\\ci-begin-master\\ci-begin-master\\assets\\images\\enemies\\explosion\\3.png"));
-        images.add(SpriteUtils.loadImage("D:\\Techkids\\Code Intensive\\ci-begin-master\\ci-begin-master\\assets\\images\\enemies\\explosion\\4.png"));
-        images.add(SpriteUtils.loadImage("D:\\Techkids\\Code Intensive\\ci-begin-master\\ci-begin-master\\assets\\images\\enemies\\explosion\\5.png"));
-        images.add(SpriteUtils.loadImage("D:\\Techkids\\Code Intensive\\ci-begin-master\\ci-begin-master\\assets\\images\\enemies\\explosion\\6.png"));
-        images.add(SpriteUtils.loadImage("D:\\Techkids\\Code Intensive\\ci-begin-master\\ci-begin-master\\assets\\images\\enemies\\explosion\\7.png"));
-
+        ArrayList<BufferedImage> images = SpriteUtils.loadImages("D:\\Techkids\\Code Intensive\\ci-begin-master\\ci-begin-master\\assets\\images\\enemies\\level0\\pink\\0.png",
+                "D:\\Techkids\\Code Intensive\\ci-begin-master\\ci-begin-master\\assets\\images\\enemies\\level0\\pink\\1.png",
+                "D:\\Techkids\\Code Intensive\\ci-begin-master\\ci-begin-master\\assets\\images\\enemies\\level0\\pink\\2.png",
+                "D:\\Techkids\\Code Intensive\\ci-begin-master\\ci-begin-master\\assets\\images\\enemies\\level0\\pink\\3.png");
         this.renderer = new AnimationRenderer(images);
     }
 
-    int count = 0;
 
     private void fire() {
-        if (count >= 20) {
-            EnemyBullet enemyBullet = new EnemyBullet();
-            enemyBullet.position.set(this.position.x, this.position.y);
-
-            GameCanvas.enemyBullets.add(enemyBullet);
-            count = 0;
-        } else {
-            count++;
+        if (this.enemyFireCounter.run()) {
+            EnemyBullet enemyBullet = GameObject.recycle(EnemyBullet.class);
+            enemyBullet.position.set(this.position);
+            this.enemyFireCounter.reset();
         }
     }
 }

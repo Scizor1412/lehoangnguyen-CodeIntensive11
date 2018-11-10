@@ -3,6 +3,7 @@ package base.Enemy;
 import base.GameObject;
 import base.Renderer.AnimationRenderer;
 import base.Renderer.SingleImageRenderer;
+import base.game.Settings;
 import tklibs.SpriteUtils;
 
 import java.awt.image.BufferedImage;
@@ -32,5 +33,8 @@ public class EnemyBullet extends GameObject {
     public void run() {
         super.run();
         this.position.addThis(0, 5);
+        if (this.position.y > Settings.SCREEN_HEIGHT) {
+            this.destroy();
+        }
     }
 }

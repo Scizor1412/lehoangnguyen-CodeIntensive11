@@ -7,8 +7,7 @@ public class Vector2D {
     public float y;
 
     public Vector2D() {
-        this.x = 0;
-        this.y = 0;
+        this(0, 0);
     }
 
     public Vector2D (float x, float y) {
@@ -21,10 +20,18 @@ public class Vector2D {
         return result;
     }
 
+    public  Vector2D add(Vector2D other) {
+        return this.add(other.x, other.y);
+    }
+
     public Vector2D addThis (float x, float y) {
         this.x += x;
         this.y += y;
         return this;
+    }
+
+    public Vector2D addThis (Vector2D other) {
+        return this.addThis(other.x, other.y);
     }
 
     public Vector2D substract(float x, float y) {
@@ -32,10 +39,18 @@ public class Vector2D {
         return result;
     }
 
+    public Vector2D substract (Vector2D other) {
+        return this.substract(other.x, other.y);
+    }
+
     public Vector2D substractThis (float x, float y) {
         this.x -= x;
         this.y -= y;
         return this;
+    }
+
+    public Vector2D substractThis (Vector2D other) {
+        return this.substractThis(other.x, other.y);
     }
 
     public Vector2D scale(float rate) {
@@ -57,6 +72,10 @@ public class Vector2D {
         this.x = x;
         this.y = y;
         return this;
+    }
+
+    public Vector2D set (Vector2D other) {
+        return this.set(other.x, other.y);
     }
 
     public Vector2D setLength (float length) {
