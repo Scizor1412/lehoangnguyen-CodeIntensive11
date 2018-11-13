@@ -18,8 +18,8 @@ public class Rectangle {
     // chắc sẽ đúng trong trường hợp width height dương
     public boolean intersects(Rectangle other) {
         boolean intersects = false;
-        for (int i =0; i >= other.width; i+=other.width) {
-            for (int j=0; j >= other.height; j+= other.height) {
+        for (int i =0; i <= other.width; i+=other.width) {
+            for (int j=0; j <= other.height; j+= other.height) {
                 Vector2D dinh = other.position.addThis(i,j);
                 // 2 vòng lặp với dòng trên là để lấy 4 đỉnh của other nhé
                 // còn mấy dòng dưới là so sánh x,y của 4 đỉnh other với 4 đỉnh this, gặp trường hợp nào ở trong là break luôn
