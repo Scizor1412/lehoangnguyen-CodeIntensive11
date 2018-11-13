@@ -51,7 +51,7 @@ public class GameWindow extends JFrame {
                 if (e.getKeyCode() == KeyEvent.VK_D) {
                     KeyEventPress.isRightPress = false;
                 }
-                if (e.getKeyCode() == KeyEvent.VK_D) {
+                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                     KeyEventPress.isFirePress = false;
                 }
             }

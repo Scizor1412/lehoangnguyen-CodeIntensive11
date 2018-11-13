@@ -13,11 +13,14 @@ public class Background extends GameObject {
 
         this.position.set(0, Settings.SCREEN_HEIGHT - image.getHeight());
         this.renderer = new SingleImageRenderer(image);
+        this.velocity.set(0, 10);
     }
 
     @Override
     public void run() {
-        if (this.position.y < 0) {
-            this.position.addThis (0, 10);
-    }}
+        super.run();
+        if (this.position.y >=0 ) {
+            this.velocity.set(0,0);
+        }
+    }
 }

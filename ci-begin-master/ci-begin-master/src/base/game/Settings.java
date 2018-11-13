@@ -10,4 +10,5 @@ public class Settings {
     public static int LEFT_BUTTON = KeyEvent.VK_A;
     public static int RIGHT_BUTTON = KeyEvent.VK_D;
     public static int FIRE_BUTTON = KeyEvent.VK_SPACE;
+    public static int BACKGROUND_WIDTH = 384;
 }

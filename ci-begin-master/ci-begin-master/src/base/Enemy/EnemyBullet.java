@@ -10,10 +10,11 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class EnemyBullet extends GameObject {
-    public EnemyBullet () {
+    public EnemyBullet() {
         super();
         BufferedImage image = SpriteUtils.loadImage("D:\\Techkids\\Code Intensive\\ci-begin-master\\ci-begin-master\\assets\\images\\enemies\\bullets\\blue.png");
         this.createRenderer();
+        this.velocity.set(0, 5);
     }
 
     private void createRenderer() {
@@ -32,8 +33,11 @@ public class EnemyBullet extends GameObject {
     @Override
     public void run() {
         super.run();
-        this.position.addThis(0, 5);
-        if (this.position.y > Settings.SCREEN_HEIGHT) {
+        this.destroyIfNeeded();
+    }
+
+    private void destroyIfNeeded() {
+        if (this.position.y < -20 || this.position.y > Settings.SCREEN_HEIGHT || this.position.x < -0 || this.position.x > Settings.BACKGROUND_WIDTH) {
             this.destroy();
         }
     }

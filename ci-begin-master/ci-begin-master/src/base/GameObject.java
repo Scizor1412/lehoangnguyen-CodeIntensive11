@@ -40,11 +40,13 @@ public class GameObject {
     public Vector2D position;
     public Renderer renderer;
     public boolean isActive;
+    public Vector2D velocity;
 
     //phuong thuc
     public GameObject() {
         this.position = new Vector2D();
         this.isActive = true;
+        this.velocity = new Vector2D();
     }
 
     public void destroy() {
@@ -57,7 +59,7 @@ public class GameObject {
 
     //logic
     public void run() {
-
+        this.position.addThis(this.velocity);
     }
 
     //hien thi
