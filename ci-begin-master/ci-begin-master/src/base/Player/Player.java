@@ -7,19 +7,23 @@ import base.game.GameCanvas;
 import base.GameObject;
 import base.KeyEventPress;
 import base.game.Settings;
+import base.physics.BoxCollider;
+import base.physics.Physics;
 import tklibs.SpriteUtils;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class Player extends GameObject {
+public class Player extends GameObject implements Physics {
     FrameCounter fireCounter;
+    BoxCollider boxCollider;
 
     public Player() {
         super();
         this.createRenderer();
         this.position.set(200, 300);
         this.fireCounter = new FrameCounter(20);
+        this.boxCollider = new BoxCollider(this.position, 32, 48);
     }
 
     private void createRenderer() {
@@ -88,5 +92,17 @@ public class Player extends GameObject {
             bullet3.position.set(this.position.add(19, 0));
             bullet3.velocity.set(2,-5);
             this.fireCounter.reset();
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        PlayerExplosion playerExplosion = GameObject.recycle(PlayerExplosion.class);
+        playerExplosion.position = this.position;
+    }
+
+    @Override
+    public BoxCollider getBoxCollider() {
+        return boxCollider;
     }
 }

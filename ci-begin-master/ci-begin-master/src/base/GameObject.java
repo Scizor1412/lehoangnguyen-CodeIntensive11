@@ -2,6 +2,8 @@ package base;
 
 import base.Player.Player;
 import base.Renderer.Renderer;
+import base.physics.BoxCollider;
+import base.physics.Physics;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -11,6 +13,11 @@ public class GameObject {
     //static
     public static ArrayList<GameObject> gameObjects = new ArrayList<>();
 
+    public static Player createPlayer() {
+        Player player = new Player();
+        gameObjects.add(player);
+        return player;
+    }
     //createGameObject generic
     public static <E extends GameObject> E create(Class<E> clazz){
         try {
@@ -31,6 +38,23 @@ public class GameObject {
         }
         E newGameObject = create(clazz);
         return newGameObject;
+    }
+
+    public static <E extends GameObject> E intersects(Class<E> clazz, BoxCollider boxCollider) {
+        // gameObjects > result( result instance of E, result instance of Physics, result.getBoxCollider.intersects(boxCollider))
+        int size = gameObjects.size();
+        for (int i=0; i<size; i++ ) {
+            GameObject gameObject = gameObjects.get(i);
+            if (gameObject.isActive &&
+                 gameObject.getClass().isAssignableFrom(clazz)
+                 && gameObject instanceof Physics) {
+                Physics gameObjectPhysics = (Physics) gameObject;
+                if (gameObjectPhysics.getBoxCollider().intersects(boxCollider)) {
+                    return (E)gameObject;
+                }
+            }
+        }
+        return null;
     }
 
     private static boolean isValidRecycle (GameObject gameObject, Class clazz) {

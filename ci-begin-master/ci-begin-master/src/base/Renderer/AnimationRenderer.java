@@ -11,10 +11,21 @@ public class AnimationRenderer extends  Renderer{
     ArrayList<BufferedImage> images;
     FrameCounter countAnimation;
     int currentImageIndex;
+    boolean isOnce;
+
     public AnimationRenderer(ArrayList<BufferedImage> images) {
+        this(images, 10, false);
+    }
+
+    public AnimationRenderer(ArrayList<BufferedImage> images, int maxFramecount) {
+        this(images, maxFramecount, false);
+    }
+
+    public AnimationRenderer (ArrayList<BufferedImage> images, int maxFramecount, boolean isOnce) {
         this.images = images;
-        this.currentImageIndex = 0;
-        this.countAnimation = new FrameCounter(10);
+        currentImageIndex = 0;
+        this.countAnimation = new FrameCounter(maxFramecount);
+        this.isOnce = isOnce;
     }
 
     @Override
@@ -22,6 +33,10 @@ public class AnimationRenderer extends  Renderer{
         g.drawImage(this.images.get(currentImageIndex), (int) master.position.x, (int) master.position.y, null);
         if (this.countAnimation.run()) {
             this.currentImageIndex++;
+            if (this.currentImageIndex >= this.images.size()
+             && this.isOnce) {
+                master.destroy();
+            }
             if (this.currentImageIndex >= this.images.size()) {
                 this.currentImageIndex = 0;
             }

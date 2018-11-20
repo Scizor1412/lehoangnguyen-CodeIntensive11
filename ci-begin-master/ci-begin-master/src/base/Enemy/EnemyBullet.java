@@ -1,20 +1,26 @@
 package base.Enemy;
 
 import base.GameObject;
+import base.Player.Player;
 import base.Renderer.AnimationRenderer;
 import base.Renderer.SingleImageRenderer;
 import base.game.Settings;
+import base.physics.BoxCollider;
+import base.physics.Physics;
 import tklibs.SpriteUtils;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class EnemyBullet extends GameObject {
+public class EnemyBullet extends GameObject implements Physics {
+    BoxCollider boxCollider;
+
     public EnemyBullet() {
         super();
         BufferedImage image = SpriteUtils.loadImage("D:\\Techkids\\Code Intensive\\ci-begin-master\\ci-begin-master\\assets\\images\\enemies\\bullets\\blue.png");
         this.createRenderer();
         this.velocity.set(0, 5);
+        this.boxCollider = new BoxCollider(this.position, 16, 16);
     }
 
     private void createRenderer() {
@@ -34,6 +40,15 @@ public class EnemyBullet extends GameObject {
     public void run() {
         super.run();
         this.destroyIfNeeded();
+        this.hitPlayer();
+    }
+
+    private void hitPlayer() {
+        Player player = GameObject.intersects(Player.class, this.boxCollider);
+        if (player != null) {
+            this.destroy();
+            player.destroy();
+        }
     }
 
     private void destroyIfNeeded() {
@@ -41,4 +56,10 @@ public class EnemyBullet extends GameObject {
             this.destroy();
         }
     }
+
+    @Override
+    public BoxCollider getBoxCollider() {
+        return this.boxCollider;
+    }
+
 }
