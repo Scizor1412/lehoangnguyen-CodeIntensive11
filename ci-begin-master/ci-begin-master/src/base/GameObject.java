@@ -1,5 +1,6 @@
 package base;
 
+import base.Enemy.Enemy;
 import base.Player.Player;
 import base.Renderer.Renderer;
 import base.physics.BoxCollider;
@@ -18,6 +19,7 @@ public class GameObject {
         gameObjects.add(player);
         return player;
     }
+
     //createGameObject generic
     public static <E extends GameObject> E create(Class<E> clazz){
         try {

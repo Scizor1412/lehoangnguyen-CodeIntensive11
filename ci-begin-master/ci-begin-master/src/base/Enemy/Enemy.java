@@ -14,14 +14,17 @@ import java.util.ArrayList;
 
 public class Enemy extends GameObject implements Physics {
     FrameCounter enemyFireCounter;
+    FrameCounter enemyCreateCounter;
     BoxCollider boxCollider;
+
     public Enemy() {
         super();
         BufferedImage image = SpriteUtils.loadImage("D:\\Techkids\\Code Intensive\\ci-begin-master\\ci-begin-master\\assets\\images\\enemies\\level0\\black\\0.png");
         this.createRenderer();
         this.position.set((float) Math.random() * 300 + 1, -50);
         this.enemyFireCounter = new FrameCounter(20);
-        this.velocity.set(0,3);
+        this.enemyCreateCounter = new FrameCounter(50);
+        this.velocity.set(1,3);
         this.boxCollider = new BoxCollider(this.position, 28, 28);
     }
 
@@ -32,6 +35,10 @@ public class Enemy extends GameObject implements Physics {
             this.velocity.set(0,0);
         }
         this.fire();
+        if (this.enemyCreateCounter.run()) {
+            GameObject.create(Enemy.class);
+            this.enemyCreateCounter.reset();
+        }
     }
 
     private void createRenderer() {
